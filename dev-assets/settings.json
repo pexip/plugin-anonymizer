@@ -1,8 +1,8 @@
 {
   "plugins": [
     {
-      "id": "interpretation-plugin",
-      "srcURL": "plugins/interpretation/plugin.json",
+      "id": "plugin-anonymizer",
+      "srcURL": "plugins/anonymizer/plugin.json",
       "enabled": true
     }
   ]

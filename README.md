@@ -1,6 +1,6 @@
 # Plugin anonymizer
 
-This plugin helps the anonymize the user's display names. This way, when a user connects, the meeting host will change the username of all connected participants to something as Anonymous_3245.
+This plugin that helps to anonymize the user's display names. This way, when a user connects, the meeting host will change the username of all connected participants to something as Anonymous_3245.
 
 ## Prerequisites
 

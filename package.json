@@ -2,19 +2,20 @@
   "name": "plugin-anonymizer",
   "author": "Marcos Cereijo",
   "version": "1.0.0",
-  "description": "Plugin that anonymize the user's display names.",
+  "description": "Plugin that anonymizes the user's display names.",
   "scripts": {
     "start": "webpack-dev-server --mode=development",
     "build": "webpack --mode=production"
   },
   "dependencies": {
-    "rxjs": "^7.5.7",
-    "ts-interface-checker": "^1.0.2"
+    "rxjs": "^7.5.7"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "generate-json-webpack-plugin": "^2.0.0",
+    "ts-interface-checker": "^1.0.2",
+    "ts-interface-builder": "^0.3.3",
     "ts-loader": "^9.4.1",
     "transform-json-webpack-plugin": "^0.0.2",
     "webpack": "^5.74.0",

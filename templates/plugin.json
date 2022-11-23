@@ -1,13 +1,13 @@
 {
   "id": "plugin-anonymizer",
   "name": "Anonymizer",
-  "description": "Plugin for obtaining the translation of a room by a professional interpreter.",
+  "description": "Plugin that anonymizes the user's display names.",
   "version": "",
   "srcURL": "index.js",
   "allowUnload": true,
   "platforms": ["web", "electron", "ios", "android"],
   "participantRoles": ["chair"],
   "configuration": {
-    "idLength": 4
+    "prefix": "anonymous_"
   }
 }

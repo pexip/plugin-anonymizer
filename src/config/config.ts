@@ -1,3 +1,3 @@
 export interface Config {
-  idLength: number;
+  prefix: string;
 }
