@@ -47,7 +47,7 @@ This plugin allow to configure its behavior. It can be done by modifying the fil
 
 | Parameter         | Type                    | Description  |
 | ----------------- | ----------------------- | ------------ |
-| idLength     | number                 | Digits to include to the participant name. For example, if the number is 4, the username could be Anonymous_2342. |
+| prefix     | number                 | Prefix to include to the participant name. For example, if the prefix is`anonymous_`, the username could be `anonymous_2342`. |
 
 
 ## Testing in local
