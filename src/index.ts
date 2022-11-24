@@ -13,59 +13,53 @@ const load = async (participants$: any, conferenceDetails$: any) => {
 
   const json = await response.json();
 
-  const pluginId = json.id;
   const configuration = json.configuration;
 
   const prefix = configuration.prefix;
 
-  participants$.subscribe((participants: any) => {
-
-    if (participants.length > 0) {
-      // Get the current user
-      const me = participants.find((participant: any) => participant.uuid === (window as any).PEX.selfUUID);
-      // Check if the user has host permissions
-      console.log('My User');
-      console.log(me)
-      if (me.role === 'chair') {
-        participants.forEach((participant: any) => {
-          console.log('One Participant');
-          console.log(participant);
-          // Check if the participant was already anonymizer
-          if (!participant.name.match(new RegExp('^' + prefix))) {
-            // Anonymize this user
-            const path = '/participants/' + participant.uuid + '/overlaytext';;
-            //(window as any).PEX.pluginAPI.sendRequest(path, { text: prefix + '123' });
-            const random = Math.floor(Math.random() * 9999);
-            const zerofilled = ('0000'+ random).slice(-4);
-            (window as any).PEX.pexrtc.setParticipantText(participant.uuid, prefix + zerofilled);
-          }         
-        });
-      }
-    }
-  });
-
-
-
-  
-  conferenceDetails$.subscribe((conferenceDetails: any) => {
-    console.log('Obtaining confernece details');
-    console.log(conferenceDetails);
-  });
-
-  (window as any).PEX.actions$.ofType('[Home] Screen state').subscribe( (action: any) => {
-
-  });
-
   (window as any).PEX.actions$.ofType('[Conference] Connect Success').subscribe( (action: any) => {
+
+    let participants: any = []
+    participants$.subscribe((participantsArray: any) => {
+      participants = participantsArray
+    })
+
+    const onParticipantCreate = (window as any).PEX.pexrtc.onParticipantCreate;
     const onParticipantUpdate = (window as any).PEX.pexrtc.onParticipantUpdate;
+
+    (window as any).PEX.pexrtc.onParticipantCreate = (participant: any) => {
+      if (!participant.overlay_text.match(new RegExp('^' + prefix))) {
+        // Only change the overlay_text if we are the first HOST to join the meeting
+        let hostParticipants = participants.filter((participant: any) => participant.role=="chair")
+        hostParticipants.sort((a: any, b: any) => a.startTime - b.startTime)
+        const myUuid = (window as any).PEX.pexrtc.uuid;
+        const myRole = (window as any).PEX.pexrtc.role;
+        let name = participant.overlay_text;
+        if ((myRole == 'HOST') && (myUuid == participant.uuid ||
+          (participant.role != 'chair' && hostParticipants[0]?.uuid == myUuid))) {
+          const random = Math.floor(Math.random() * 9999);
+          const zerofilled = ('0000'+ random).slice(-4);
+          const newName = prefix + zerofilled;
+          (window as any).PEX.pexrtc.setParticipantText(participant.uuid, newName);
+          participant.display_name = newName;
+          participant.uri = newName;
+          onParticipantCreate(participant);
+        }
+        // Don't trigger onParticipant create in this case. We will wait until the
+        // overlay_text is updated by the host and call it in onParticipantUpdate.
+        return;
+      }
+      participant.display_name = participant.overlay_text;
+      participant.uri = participant.overlay_text;
+      onParticipantCreate(participant);
+    }
+
     (window as any).PEX.pexrtc.onParticipantUpdate = (participant: any) => {
       participant.display_name = participant.overlay_text;
       participant.uri = participant.overlay_text;
+      onParticipantCreate(participant);
       onParticipantUpdate(participant);
     }
-  });
-  
-  (window as any).PEX.actions$.ofType('[Conference] Disconnect').subscribe(() => {
 
   });
   
