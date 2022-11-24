@@ -36,7 +36,7 @@ const load = async (participants$: any, conferenceDetails$: any) => {
         const myRole = (window as any).PEX.pexrtc.role;
         let name = participant.overlay_text;
         if ((myRole == 'HOST') && (myUuid == participant.uuid ||
-          (participant.role != 'chair' && hostParticipants[0]?.uuid == myUuid))) {
+          (participant.role != 'chair' && (hostParticipants.length == 0 || hostParticipants[0]?.uuid == myUuid)))) {
           const random = Math.floor(Math.random() * 9999);
           const zerofilled = ('0000'+ random).slice(-4);
           const newName = prefix + zerofilled;
