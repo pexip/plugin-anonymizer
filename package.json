@@ -18,7 +18,7 @@
     "ts-interface-builder": "^0.3.3",
     "ts-loader": "^9.4.1",
     "transform-json-webpack-plugin": "^0.0.2",
-    "webpack": "^5.74.0",
+    "webpack": "^5.112.1",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1"
   }
